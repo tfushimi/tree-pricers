@@ -15,7 +15,7 @@ public abstract class BinomialTreePricer {
         this.discountCurve = discountCurve;
     }
 
-    protected abstract void buildTree();
+    public abstract void buildTree();
 
     public BinomialTree getTree() {
         return tree;

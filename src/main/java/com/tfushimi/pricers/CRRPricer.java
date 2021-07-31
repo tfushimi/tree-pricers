@@ -3,8 +3,10 @@ package com.tfushimi.pricers;
 import com.tfushimi.discountCurves.DiscountCurve;
 import com.tfushimi.trees.BinomialTree;
 import com.tfushimi.trees.Node;
-import com.tfushimi.trees.VectorTree;
+import com.tfushimi.trees.BinomialTreeImpl;
 import com.tfushimi.volatility.Volatility;
+
+import java.util.Vector;
 
 /**
  * CRRPricer with constant volatility and riskFreeRate
@@ -14,24 +16,35 @@ public class CRRPricer extends BinomialTreePricer {
     Volatility volatility;
 
     public CRRPricer(double spotPrice,
+                     double maturity,
+                     int steps,
                      Volatility volatility,
-                     BinomialTree tree,
                      DiscountCurve discountCurve) {
-        super(tree, discountCurve);
+        super(new BinomialTreeImpl(steps, maturity), discountCurve);
         this.spotPrice = spotPrice;
         this.volatility = volatility;
     }
 
     public CRRPricer(double spotPrice,
-                     double maturity,
-                     int steps,
+                     Vector<Double> times,
                      Volatility volatility,
                      DiscountCurve discountCurve) {
-        this(spotPrice, volatility, new VectorTree(steps, maturity), discountCurve);
+        super(new BinomialTreeImpl(times), discountCurve);
+        this.spotPrice = spotPrice;
+        this.volatility = volatility;
+    }
+
+    public CRRPricer(double spotPrice,
+                     Volatility volatility,
+                     DiscountCurve discountCurve,
+                     BinomialTree tree) {
+        super(tree, discountCurve);
+        this.spotPrice = spotPrice;
+        this.volatility = volatility;
     }
 
     @Override
-    protected void buildTree() {
+    public void buildTree() {
         for (int nodeLocation = 0; nodeLocation < tree.getSteps() + 1; nodeLocation++) {
             for (int timeStep = nodeLocation; timeStep < tree.getSteps() + 1; timeStep++) {
                 Node node = tree.get(timeStep, nodeLocation);

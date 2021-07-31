@@ -22,7 +22,7 @@ public class Main {
 
         var discountCurve = new ConstantDiscountCurve(0.01);
         var volatility = new ConstantVolatility(0.15);
-        var pricer = new CRRPricer(100.0, 1.0, 100, volatility, discountCurve);
+        var pricer = new CRRPricer(100.0, 1.0, 252, volatility, discountCurve);
 
         try {
             System.out.println("European Call=" + pricer.price(callOption));
