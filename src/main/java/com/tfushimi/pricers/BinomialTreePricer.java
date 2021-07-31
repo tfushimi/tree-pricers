@@ -21,11 +21,11 @@ public abstract class BinomialTreePricer {
         return tree;
     }
 
-    private double getExpectation(Node upNode, Node downNode, double riskNeutralProb) {
+    public double getExpectation(Node upNode, Node downNode, double riskNeutralProb) {
         return riskNeutralProb * upNode.getOptionValue() + (1 - riskNeutralProb) * downNode.getOptionValue();
     }
 
-    private double getDiscountedExpectation(Node node, Node upNode, Node downNode) {
+    public double getDiscountedExpectation(Node node, Node upNode, Node downNode) {
         double discountFactor = discountCurve.get(node.getTime(), node.getEndTime());
         return discountFactor * getExpectation(upNode, downNode, node.getRiskNeutralProb());
     }
@@ -41,15 +41,15 @@ public abstract class BinomialTreePricer {
         }
 
         // calculate terminal price
-        for (int i = 0; i < tree.getSteps() + 1; i++) {
-            Node node = tree.get(tree.getSteps(), i);
+        for (int i = 0; i < tree.getNumSteps() + 1; i++) {
+            Node node = tree.get(tree.getNumSteps(), i);
             node.setOptionValue(option.finalValue(node.getSpotPrice()));
         }
 
         // backward
-        int numNodes = tree.getSteps();
-        for (int i = 1; i < tree.getSteps() + 1; i++) {
-            int currentTimeStep = tree.getSteps() - i;
+        int numNodes = tree.getNumSteps();
+        for (int i = 1; i < tree.getNumSteps() + 1; i++) {
+            int currentTimeStep = tree.getNumSteps() - i;
             // calculate option value of nodes at current time step
             for (int nodeLocation = 0; nodeLocation < numNodes; nodeLocation++) {
                 Node node = tree.get(currentTimeStep, nodeLocation);

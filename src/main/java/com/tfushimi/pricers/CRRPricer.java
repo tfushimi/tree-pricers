@@ -45,8 +45,8 @@ public class CRRPricer extends BinomialTreePricer {
 
     @Override
     public void buildTree() {
-        for (int nodeLocation = 0; nodeLocation < tree.getSteps() + 1; nodeLocation++) {
-            for (int timeStep = nodeLocation; timeStep < tree.getSteps() + 1; timeStep++) {
+        for (int nodeLocation = 0; nodeLocation < tree.getNumSteps() + 1; nodeLocation++) {
+            for (int timeStep = nodeLocation; timeStep < tree.getNumSteps() + 1; timeStep++) {
                 Node node = tree.get(timeStep, nodeLocation);
                 // set spot price at current node
                 if (timeStep == nodeLocation) {

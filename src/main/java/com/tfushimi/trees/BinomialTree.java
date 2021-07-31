@@ -3,30 +3,30 @@ package com.tfushimi.trees;
 import java.util.Vector;
 
 public abstract class BinomialTree {
-    int steps;
+    int numSteps;
     double maturity;
     Vector<Double> times;
 
-    public BinomialTree(int steps, double maturity) {
-        Vector<Double> temp = new Vector<>(steps+1);
-        for (int i = 0; i < steps + 1; i++) {
-            temp.add(i, i * maturity / steps);
+    public BinomialTree(int numSteps, double maturity) {
+        Vector<Double> temp = new Vector<>(numSteps +1);
+        for (int i = 0; i < numSteps + 1; i++) {
+            temp.add(i, i * maturity / numSteps);
         }
-        this.steps = steps;
+        this.numSteps = numSteps;
         this.maturity = maturity;
         this.times = temp;
         initialize();
     }
 
     public BinomialTree(Vector<Double> times) {
-        this.steps = times.size() - 1;
+        this.numSteps = times.size() - 1;
         this.maturity = times.lastElement();
         this.times = times;
         initialize();
     }
 
-    public int getSteps() {
-        return steps;
+    public int getNumSteps() {
+        return numSteps;
     }
 
     public double getMaturity() {
