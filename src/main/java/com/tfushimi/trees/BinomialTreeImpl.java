@@ -2,15 +2,19 @@ package com.tfushimi.trees;
 
 import java.util.Vector;
 
-public class VectorTree extends BinomialTree {
-    Vector<Vector<Node>> tree;
+public class BinomialTreeImpl extends BinomialTree {
+    private Vector<Vector<Node>> tree;
 
-    public VectorTree(int steps, double maturity) {
+    public BinomialTreeImpl(int steps, double maturity) {
         super(steps, maturity);
-        initialize();
     }
 
-    private void initialize() {
+    public BinomialTreeImpl(Vector<Double> times) {
+        super(times);
+    }
+
+    @Override
+    protected void initialize() {
         // reshape the tree so that there are step + 1 time steps
         tree = new Vector<>(steps + 1);
 

@@ -15,12 +15,14 @@ public abstract class BinomialTree {
         this.steps = steps;
         this.maturity = maturity;
         this.times = temp;
+        initialize();
     }
 
-    public BinomialTree(int steps, double maturity, Vector<Double> timeSteps) {
-        this.steps = steps;
-        this.maturity = maturity;
-        this.times = timeSteps;
+    public BinomialTree(Vector<Double> times) {
+        this.steps = times.size() - 1;
+        this.maturity = times.lastElement();
+        this.times = times;
+        initialize();
     }
 
     public int getSteps() {
@@ -31,9 +33,7 @@ public abstract class BinomialTree {
         return maturity;
     }
 
-    public double getTime(int timeStep) {
-        return times.get(timeStep);
-    }
+    protected abstract void initialize();
 
     public abstract Node get(int timeStep, int nodeLocation);
 }
