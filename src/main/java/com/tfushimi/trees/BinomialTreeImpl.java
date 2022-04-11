@@ -1,42 +1,41 @@
 package com.tfushimi.trees;
 
-import java.util.Vector;
-
 public class BinomialTreeImpl extends BinomialTree {
-    private Vector<Vector<Node>> tree;
+    private Node[][] tree;
 
     public BinomialTreeImpl(int steps, double maturity) {
         super(steps, maturity);
     }
 
-    public BinomialTreeImpl(Vector<Double> times) {
+    public BinomialTreeImpl(double[] times) {
         super(times);
     }
 
     @Override
     protected void initialize() {
         // reshape the tree so that there are step + 1 time steps
-        tree = new Vector<>(numSteps + 1);
+        tree = new Node[getNumSteps()+1][];
 
         // forward induction
         // number of nodes at each time step
         int numNodes = 1;
-        for (int i = 0; i < numSteps + 1; i++) {
-            Vector<Node> nodes = new Vector<>(numNodes);
+        for (int i = 0; i < getNumSteps() + 1; i++) {
+            tree[i] = new Node[numNodes];
             for (int j = 0; j < numNodes; j++) {
                 double timeDelta = 0;
-                if (i < numSteps) {
-                    timeDelta = times.get(i + 1) - times.get(i);
+                if (i < getNumSteps()) {
+                    timeDelta = getTime(i + 1) - getTime(i);
+
                 }
-                nodes.add(j, new Node(times.get(i), timeDelta));
+                tree[i][j] = new Node(getTime(i), timeDelta);
             }
-            tree.add(i, nodes);
             numNodes++;
         }
     }
 
     @Override
     public Node get(int i, int j) {
-        return tree.get(i).get(j);
+
+        return tree[i][j];
     }
 }
